@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>信義364 選屋意向 · 熱度公開頁 2026/06/29</title>
+<style>
+  :root{
+    --primary:#174D5B; --secondary:#43C2C7; --err:#FF685C; --warn:#FFDF80;
+    --succ:#90E99A; --ink:#19282d; --mut:#6b7d82; --line:#e3ecee; --bg:#eef4f4; --card:#fff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"PingFang TC","Microsoft JhengHei","微軟正黑體",sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.5;padding:26px 16px}
+  .wrap{max-width:1080px;margin:0 auto}
+  header{background:linear-gradient(135deg,var(--primary),#0c333d);color:#fff;border-radius:18px;
+    padding:24px 30px;margin-bottom:16px;position:relative;overflow:hidden}
+  header::after{content:"";position:absolute;right:-50px;top:-50px;width:220px;height:220px;
+    background:radial-gradient(circle,rgba(67,194,199,.4),transparent 70%)}
+  .badge{display:inline-block;background:var(--err);color:#fff;font-size:11.5px;font-weight:800;
+    padding:3px 11px;border-radius:20px;letter-spacing:1px;margin-bottom:9px}
+  header h1{font-size:25px;font-weight:900;letter-spacing:.5px}
+  header .sub{font-size:13.5px;opacity:.92;margin-top:7px}
+  header .hl{display:inline-block;background:rgba(255,255,255,.16);border-radius:8px;padding:4px 12px;
+    font-weight:800;margin-top:11px;font-size:14px}
+  /* 更前→更後 概念帶 */
+  .concept{background:var(--card);border-radius:16px;border:1px solid var(--line);padding:16px 20px;
+    margin-bottom:16px;display:flex;align-items:stretch;gap:14px;flex-wrap:wrap;
+    box-shadow:0 2px 8px rgba(23,77,91,.06)}
+  .cc{flex:1 1 200px;display:flex;align-items:center;gap:13px;background:#f7fbfb;border-radius:12px;padding:13px 16px}
+  .cc-before{border-left:4px solid var(--mut)} .cc-after{border-left:4px solid var(--secondary)}
+  .cc-n{font-size:34px;font-weight:900;color:var(--primary);line-height:1;flex:0 0 auto}
+  .cc-after .cc-n{color:var(--secondary)}
+  .cc-l{font-size:12.5px;color:var(--mut);font-weight:600;line-height:1.5}
+  .cc-l b{color:var(--ink);font-size:13.5px}
+  .cc-l .tag{display:inline-block;font-size:10.5px;font-weight:800;padding:1px 7px;border-radius:5px;margin-bottom:3px}
+  .cc-before .tag{background:#e7eef0;color:var(--mut)} .cc-after .tag{background:#e0f6f6;color:#1c8a8f}
+  .cc-arrow{display:flex;align-items:center;font-size:13px;font-weight:900;color:var(--secondary)}
+  .cc-note{flex:1 1 100%;font-size:12px;color:#7a5e00;background:#fff8e6;border-left:4px solid var(--warn);
+    border-radius:8px;padding:9px 13px;font-weight:600}
+  .seg{background:var(--card);border-radius:18px;padding:8px 0;margin-bottom:16px;overflow:hidden;
+    border:1px solid var(--line);box-shadow:0 2px 8px rgba(23,77,91,.06)}
+  .seg-head{padding:16px 26px 4px;display:flex;align-items:baseline;gap:12px}
+  .seg-no{width:34px;height:34px;border-radius:10px;background:var(--secondary);color:#fff;
+    font-weight:900;font-size:17px;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .seg-t{font-size:19px;font-weight:900;color:var(--primary)}
+  .seg-sub{font-size:13px;color:var(--mut);margin-left:auto;font-weight:600}
+  .seg-body{padding:14px 26px 22px}
+
+  /* 熱度矩陣 */
+  .heatwrap{display:flex;gap:22px;flex-wrap:wrap}
+  .grid{flex:1 1 560px}
+  table.heat{border-collapse:separate;border-spacing:3px;width:100%}
+  table.heat th{font-size:11px;color:var(--mut);font-weight:700;padding:2px;text-align:center}
+  table.heat td{text-align:center;font-size:12.5px;font-weight:800;border-radius:5px;
+    height:23px;color:#13343d}
+  .fl-lab{font-size:11px !important;color:var(--mut) !important;font-weight:800 !important;
+    text-align:right !important;padding-right:6px !important;width:42px}
+  .z{background:#f1f6f6;color:#cdd9da}
+  .c1{background:var(--succ)} .c2{background:var(--warn)} .c3{background:var(--err);color:#fff}
+  .shop{background:#dce9ec;color:#5a7882;font-size:10px !important}
+  .legend{display:flex;gap:14px;align-items:center;margin-top:12px;font-size:12px;color:var(--mut);flex-wrap:wrap}
+  .lg{display:inline-flex;align-items:center;gap:5px;font-weight:600}
+  .sw{width:15px;height:15px;border-radius:4px;display:inline-block}
+  .side{flex:1 1 300px;display:flex;flex-direction:column;gap:16px}
+  .panel{background:#f7fbfb;border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .panel h3{font-size:13.5px;font-weight:800;color:var(--primary);margin-bottom:11px}
+  .br{margin-bottom:9px}.br:last-child{margin-bottom:0}
+  .br-top{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;margin-bottom:4px}
+  .br-top .v{color:var(--mut);font-weight:700}
+  .track{height:12px;background:#e7f0f0;border-radius:7px;overflow:hidden}
+  .fill{height:100%;border-radius:7px}
+  .insight{background:#fff8e6;border-left:4px solid var(--warn);border-radius:8px;padding:10px 13px;
+    font-size:12.5px;color:#7a5e00;font-weight:600;margin-top:6px}
+  .hot{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{display:inline-flex;align-items:center;gap:6px;background:#f0f7f7;border:1px solid var(--line);
+    border-radius:9px;padding:6px 11px;font-size:13px;font-weight:700}
+  .chip b{color:var(--primary)}
+  .chip .c{background:var(--err);color:#fff;font-size:11px;font-weight:800;border-radius:20px;
+    min-width:20px;text-align:center;padding:1px 6px}
+  .chip .c.c2{background:#f0a500}
+  /* 車位棋盤 */
+  .pk-floor{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
+  .pk-lab{flex:0 0 72px;font-size:12.5px;font-weight:800;color:var(--primary);padding-top:5px;line-height:1.3}
+  .pk-lab small{display:block;font-size:10px;color:var(--mut);font-weight:600;margin-top:1px}
+  .pk-cells{display:flex;flex-wrap:wrap;gap:3px;flex:1}
+  .pk{width:29px;height:25px;border-radius:4px;font-size:9.5px;font-weight:700;
+    display:flex;align-items:center;justify-content:center;position:relative;color:#2a3e44}
+  .pk sup{font-size:9px;font-weight:900;margin-left:1px;top:-.4em}
+  .pk.c3{color:#fff}
+  .pk.acc{outline:1.6px solid var(--secondary);outline-offset:-1.6px}
+
+  .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
+  .cards.c3{grid-template-columns:repeat(3,1fr)}
+  .c{background:#f7fbfb;border:1px solid var(--line);border-radius:13px;padding:16px 16px}
+  .c .ic{font-size:21px;margin-bottom:5px}
+  .c .big{font-size:26px;font-weight:900;color:var(--primary);line-height:1.1}
+  .c .big small{font-size:14px;color:var(--mut);font-weight:700}
+  .c .lab{font-size:12.5px;color:var(--ink);font-weight:700;margin-top:3px}
+  .c .desc{font-size:11.5px;color:var(--mut);margin-top:5px;line-height:1.5}
+  .c.up{border-top:3px solid var(--err)} .c.down{border-top:3px solid #27a04b}
+  .c.cash{border-top:3px solid var(--secondary)} .c.risk{border-top:3px solid #d98e00}
+  .pos{color:var(--err)} .neg{color:#27a04b}
+  footer{text-align:center;font-size:11.5px;color:var(--mut);margin-top:8px;padding:14px;
+    background:var(--card);border-radius:12px;border:1px solid var(--line)}
+  .fnote{font-size:11px;color:var(--mut);margin-top:12px;line-height:1.6}
+  @media(max-width:820px){.cards,.cards.c3{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <span class="badge" style="background:var(--secondary)">選屋熱度公開頁</span>
+    <h1>信義364 選屋意向 · 熱度公開頁</h1>
+    <div class="sub">資料時間 2026/06/29　·　選屋繳交 7/7 ｜ 抽籤 7/11　·　本頁僅顯示彙總熱度，不含任何住戶個資</div>
+    <div class="hl">更新前產權戶 已填 47 / 57（82%）　·　看哪些戶別與車位較多人想要，選的時候可避開、提高抽中機會</div>
+  </header>
+
+  <!-- 更前→更後 概念帶：釐清兩種「戶」 -->
+  <div class="concept">
+    <div class="cc cc-before">
+      <span class="cc-n">57</span>
+      <span class="cc-l"><span class="tag">更新前</span><br><b>產權戶（地主選配單位）</b><br>目前 47 戶已填選屋意向</span>
+    </div>
+    <div class="cc-arrow">改建&nbsp;→</div>
+    <div class="cc cc-after">
+      <span class="cc-n">170</span>
+      <span class="cc-l"><span class="tag">更新後</span><br><b>新成屋戶別（住宅166＋店鋪4）</b><br>住戶從中選配</span>
+    </div>
+    <div class="cc-note">⚠️ 兩種「戶」別混淆：<b>「57／47」是更新前產權戶（地主）</b>；<b>下方「戶別選擇」「撞戶」指的是更新後的新戶別</b>。一個更前產權戶可選配 1 至多個更後戶別 — 本案普遍「一拆二」，故更後戶別的選擇次數會高於產權戶數。</div>
+  </div>
+
+  <!-- 段1 住戶選了什麼 -->
+  <div class="seg">
+    <div class="seg-head"><div class="seg-no">1</div><div class="seg-t">住戶選了什麼</div>
+      <div class="seg-sub">更新後戶別：戶別熱度 · 房型 · 樓層 · 車位</div></div>
+    <div class="seg-body">
+      <div class="heatwrap">
+        <div class="grid">
+          <div style="font-size:13px;font-weight:800;color:var(--primary);margin-bottom:3px">更新後戶別 — 選擇熱度（樓層 × 戶位）</div>
+          <div style="font-size:11.5px;color:var(--mut);margin-bottom:8px">每格＝一個更新後新戶別；數字＝有幾位更前住戶想要它（首志願）</div>
+          <table class="heat" id="heatTable"></table>
+          <div class="legend">
+            <span class="lg"><span class="sw z"></span>無人選</span>
+            <span class="lg"><span class="sw c1"></span>1 位住戶</span>
+            <span class="lg"><span class="sw c2"></span>2 位</span>
+            <span class="lg"><span class="sw c3"></span>3 位以上（撞戶）</span>
+            <span class="lg"><span class="sw shop"></span>1F 店鋪</span>
+          </div>
+        </div>
+        <div class="side">
+          <div class="panel">
+            <h3>更新後戶別 · 房型偏好（共 83 戶次）</h3>
+            <div class="br"><div class="br-top"><span>三房（A2/A3/A7/A8）</span><span class="v">38</span></div>
+              <div class="track"><div class="fill" style="width:100%;background:var(--primary)"></div></div></div>
+            <div class="br"><div class="br-top"><span>二房（A1/A4）</span><span class="v">34</span></div>
+              <div class="track"><div class="fill" style="width:89%;background:var(--secondary)"></div></div></div>
+            <div class="br"><div class="br-top"><span>一房（A5/A6）</span><span class="v">8</span></div>
+              <div class="track"><div class="fill" style="width:21%;background:#ffd36b"></div></div></div>
+            <div class="br"><div class="br-top"><span>1F 店鋪</span><span class="v">3</span></div>
+              <div class="track"><div class="fill" style="width:8%;background:#b9ccd1"></div></div></div>
+          </div>
+          <div class="panel">
+            <h3>更新後戶別 · 樓層偏好</h3>
+            <div class="br"><div class="br-top"><span>低樓 1–7F</span><span class="v">37</span></div>
+              <div class="track"><div class="fill" style="width:100%;background:var(--primary)"></div></div></div>
+            <div class="br"><div class="br-top"><span>高樓 15–22F</span><span class="v">25</span></div>
+              <div class="track"><div class="fill" style="width:68%;background:var(--secondary)"></div></div></div>
+            <div class="br"><div class="br-top"><span>中樓 8–14F</span><span class="v">21</span></div>
+              <div class="track"><div class="fill" style="width:57%;background:#7fb8bd"></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="panel" style="margin-top:16px">
+        <h3>更新後車位 — 選擇熱度（每格＝一個車位，數字＝幾人選 · 已選 49 / 163 · 撞位 16 處）</h3>
+        <div id="parkGrid"></div>
+        <div class="legend">
+          <span class="lg"><span class="sw z"></span>無人選</span>
+          <span class="lg"><span class="sw c1"></span>1 人</span>
+          <span class="lg"><span class="sw c2"></span>2 人</span>
+          <span class="lg"><span class="sw c3"></span>3 人以上（撞位）</span>
+          <span class="lg">♿ 無障礙車位</span>
+        </div>
+      </div>
+      <div class="insight">💡 目前大家集中選 <b>二三房 × 中低樓層</b>（最熱戶別 6F-A1 有 5 位住戶想要）；車位也集中在 <b>B2／B3 中段</b>。<b>一房、高樓層與深層車位相對較少人選</b> — 想避開塞車、提高抽中機會的住戶，這些是相對好下手的選擇。</div>
+    </div>
+  </div>
+
+  <!-- 段2 對住戶的影響 -->
+  <div class="seg">
+    <div class="seg-head"><div class="seg-no" style="background:#f0a500">2</div><div class="seg-t">目前選屋分布</div>
+      <div class="seg-sub">大家相對於自己應分配價值的選屋情形（彙總，不含個資）</div></div>
+    <div class="seg-body">
+      <div style="font-size:12px;color:var(--mut);font-weight:600;margin-bottom:12px">已填 49 戶意向，依各戶「選屋總值相對於應分配價值」分布如下（僅供參考，協助您評估選屋空間）。</div>
+      <!-- 分布堆疊條 -->
+      <div style="margin-bottom:18px">
+        <div style="display:flex;height:34px;border-radius:9px;overflow:hidden;font-size:12px;font-weight:800;color:#fff">
+          <div style="width:47%;background:#27a04b;display:flex;align-items:center;justify-content:center">沒選滿 23</div>
+          <div style="width:35%;background:var(--secondary);display:flex;align-items:center;justify-content:center">100–110%　17</div>
+          <div style="width:18%;background:var(--err);display:flex;align-items:center;justify-content:center">超110%　9</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--mut);margin-top:5px">
+          <span>← 未達應分配（可退）</span><span>達標補往上</span><span>超上限 →</span></div>
+      </div>
+      <div class="cards c3">
+        <div class="c down"><div class="ic">▼</div><div class="big neg">23<small> 戶</small></div>
+          <div class="lab">沒選滿（未達 100%）</div><div class="desc">選屋總值低於自己的應分配價值，仍有往上加選的空間</div></div>
+        <div class="c up"><div class="ic">▲</div><div class="big pos">17<small> 戶</small></div>
+          <div class="lab">選在 100–110%</div><div class="desc">用滿並小幅加選，落在可補價的範圍內</div></div>
+        <div class="c risk"><div class="ic">⚠️</div><div class="big">9<small> 戶</small></div>
+          <div class="lab">超選 110% 上限</div><div class="desc">超過上限部分須依公開售價現金補足，且不具抽籤資格，建議審慎評估</div></div>
+      </div>
+      <div class="insight">💡 選屋前可先參考上方「戶別與車位熱度」，<b>避開較多人想要的熱門戶別與車位</b>，能提高抽中機會；若不確定自己的選屋空間，歡迎於諮詢時間洽詢。</div>
+    </div>
+  </div>
+
+  <footer>
+    寶舖建設　·　信義364 選屋意向 熱度公開頁　·　更新 2026/06/29
+    <div class="fnote">※ 名詞：「更新前產權戶」＝地主原產權戶（共 57，現 47 已填）；「更新後戶別」＝改建後新成屋（共 170）。本頁僅顯示彙總後的熱度與分布，不含任何住戶姓名或金額；數據隨線上意向填寫即時變動，僅供選屋參考。如有疑問請於諮詢時間洽詢辦公室。</div>
+  </footer>
+
+</div>
+
+<script>
+const HEAT={"6-A1":5,"3-A3":1,"7-A4":2,"7-A1":3,"8-A1":3,"18-A3":1,"18-A4":1,"20-A2":1,"10-A6":1,"18-A2":1,"20-A7":1,"17-A5":1,"10-A1":1,"9-A3":2,"6-A2":3,"15-A3":1,"22-A3":1,"9-A1":1,"9-A4":1,"19-A7":1,"6-A6":1,"15-A8":1,"5-A1":2,"15-A2":1,"15-A1":1,"6-A7":1,"7-A7":1,"18-A8":1,"1-A2":2,"3-A2":1,"5-A8":1,"5-A7":1,"5-A5":1,"6-A8":1,"7-A8":1,"21-A8":1,"6-A3":1,"1-A3":1,"4-A4":1,"8-A4":1,"8-A8":1,"10-A8":2,"10-A5":1,"18-A1":1,"20-A4":1,"7-A2":1,"21-A3":1,"21-A2":1,"15-A7":1,"10-A4":1,"5-A4":1,"21-A7":1,"4-A1":1,"3-A1":2,"16-A6":1,"16-A7":1,"15-A4":1,"13-A4":1,"11-A3":1,"13-A8":1,"16-A4":1,"16-A5":1,"6-A4":1,"14-A7":1,"13-A6":1,"13-A7":1,"3-A4":1};
+const pos=['A1','A2','A3','A4','A5','A6','A7','A8'];
+let html='<tr><th></th>'+pos.map(p=>'<th>'+p+'</th>').join('')+'</tr>';
+for(let f=22;f>=1;f--){
+  html+='<tr><td class="fl-lab">'+f+'F</td>';
+  for(const p of pos){
+    if(f===1){
+      if(['A1','A2','A3','A4'].includes(p)){const c=HEAT[f+'-'+p]||0;
+        html+='<td class="'+(c>=3?'c3':c===2?'c2':c===1?'c1':'shop')+'">'+(c||'店')+'</td>';}
+      else html+='<td class="z"></td>';
+      continue;
+    }
+    const c=HEAT[f+'-'+p]||0;
+    const cls=c>=3?'c3':c===2?'c2':c===1?'c1':'z';
+    html+='<td class="'+cls+'">'+(c||'')+'</td>';
+  }
+  html+='</tr>';
+}
+document.getElementById('heatTable').innerHTML=html;
+
+// ===== 車位熱度棋盤 =====
+const PHEAT={"B3-68":3,"B3-69":3,"B2-31":2,"B3-62":2,"B2-28":2,"B4-110":1,"B4-109":1,"B2-24":2,"B2-32":1,"B2-33":2,"B2-30":1,"B1-2":2,"B1-1":2,"B5-133":2,"B4-99":2,"B4-105":2,"B3-66":1,"B3-65":1,"B3-72":1,"B3-73":1,"B3-80":1,"B3-86":1,"B3-71":1,"B2-36":3,"B3-61":1,"B2-25":2,"B2-46":1,"B2-49":1,"B1-9":1,"B2-37":1,"B5-145":1,"B1-12":1,"B3-76":1,"B3-87":2,"B2-35":1,"B3-67":1,"B3-77":1,"B2-50":1,"B1-8":1,"B4-102":1,"B4-101":1,"B4-98":1,"B2-26":1,"B3-84":1,"B4-100":2,"B5-132":1,"B3-83":1,"B2-29":1,"B2-38":1};
+const PNOS={"B1":[1,2,3,4,5,6,7,8,9,10,11,12,13,14],"B2":[16,17,18,19,20,21,22,23,24,25,26,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52],"B3":[53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89],"B4":[90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126],"B5":[127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165]};
+const PACC={"B1":[10,11],"B2":[26]};
+let ph='';
+for(const f of ['B1','B2','B3','B4','B5']){
+  const nos=PNOS[f], acc=PACC[f]||[];
+  const sel=nos.filter(n=>PHEAT[f+'-'+n]).length;
+  let cells='';
+  for(const n of nos){
+    const c=PHEAT[f+'-'+n]||0;
+    const cls=c>=3?'c3':c===2?'c2':c===1?'c1':'z';
+    const a=acc.includes(n)?' acc':'';
+    cells+='<div class="pk '+cls+a+'">'+n+(c?'<sup>'+c+'</sup>':'')+'</div>';
+  }
+  ph+='<div class="pk-floor"><div class="pk-lab">'+f+'F<small>已選 '+sel+'/'+nos.length+'</small></div><div class="pk-cells">'+cells+'</div></div>';
+}
+document.getElementById('parkGrid').innerHTML=ph;
+</script>
+</body>
+</html>
